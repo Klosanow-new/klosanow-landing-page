@@ -1,6 +1,8 @@
 import { termsSection } from "@/data";
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/ui/LegalPage";
 
 function wrapPrivacyPolicy(text: string) {
   const regex = /PRIVACY POLICY/;
@@ -16,7 +18,7 @@ function wrapPrivacyPolicy(text: string) {
         <Link
           key={i}
           href="/privacy"
-          className="underline text-primary hover:opacity-80"
+          className="font-semibold text-brand-600 underline"
         >
           {matches[i]}
         </Link>,
@@ -26,23 +28,20 @@ function wrapPrivacyPolicy(text: string) {
   }, []);
 }
 
+export const metadata: Metadata = {
+  title: "Terms of Use",
+  description: "The terms that govern your use of Klosanow.",
+};
+
 const TermsPage: React.FC = () => (
-  <div className="relative mt-24 overflow-x-hidden pb-10">
-    <div className="relative flex flex-col justify-center p-5 sm:p-20">
-      {termsSection.map(({ title, paragraphs }, index) => (
-        <div key={index} className="flex flex-col gap-5">
-          <h1 className="font-main font-bold text-xl lg:text-3xl mt-5">
-            {title}
-          </h1>
-          {paragraphs.map((para, pIndex) => (
-            <p key={pIndex} className="font-accent">
-              {wrapPrivacyPolicy(para)}
-            </p>
-          ))}
-        </div>
-      ))}
-    </div>
-  </div>
+  <LegalPage
+    eyebrow="Legal"
+    title="Terms of Use"
+    sections={termsSection.map(({ title, paragraphs }) => ({
+      title,
+      paragraphs: paragraphs.map((para, i) => <p key={i}>{wrapPrivacyPolicy(para)}</p>),
+    }))}
+  />
 );
 
 export default TermsPage;

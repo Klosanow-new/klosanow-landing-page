@@ -1,27 +1,34 @@
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavLinkProps } from "@/data";
+import { cn } from "@/lib/utils";
 
-export const NavLinks: React.FC<NavLinkProps> = ({
+const normalise = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
+
+export const NavLinks: React.FC<NavLinkProps & { className?: string }> = ({
   children,
   href,
   handleNavClick,
+  className,
 }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
+  const pathname = usePathname() || "/";
+  const isActive = normalise(pathname) === normalise(href);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-1">
-      <Link
-        href={href}
-        onClick={handleNavClick}
-        className={`transition-colors duration-200 hover:text-[var(--color-primary-50)] ${isActive ? "text-[var(--color-primary-50)]" : ""}`}
-      >
-        {children}
-      </Link>
-      <span
-        className={`block h-1 w-1 rounded-full bg-[var(--color-primary-50)] transition-opacity duration-200 ${isActive ? "opacity-100" : "opacity-0"}`}
-      />
-    </div>
+    <Link
+      href={href}
+      onClick={handleNavClick}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+        isActive
+          ? "bg-brand-50 text-brand-700"
+          : "text-ink-600 hover:bg-ink-50 hover:text-ink-900",
+        className,
+      )}
+    >
+      {children}
+    </Link>
   );
 };

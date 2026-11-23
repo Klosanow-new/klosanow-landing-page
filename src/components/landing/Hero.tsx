@@ -2,80 +2,95 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Elispce } from "../ui/Elispce";
+import { PlayCircle } from "lucide-react";
 import { heroImg } from "@/assets";
+import { JoinWaitlistButton } from "../ui/JoinWaitlistButton";
+
+const stats = [
+  { value: "500+", label: "Tutors" },
+  { value: "2,000+", label: "Learners" },
+  { value: "Free", label: "To start" },
+];
 
 export const Hero: React.FC = () => (
-  <div className="flex flex-col max-w-[2024px] justify-center xl:flex-row lg:space-x-40 relative mt-10">
-    <Elispce className="absolute w-[400px] h-[400px] border-secondary-thin -z-1 -top-52 -left-70" />
-    <motion.div
-      className="relative space-y-6 p-8"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-    >
-      {/* Badge pill */}
-      <span className="inline-flex items-center gap-2 bg-[var(--color-primary-5)] text-[var(--color-primary-60)] text-sm font-accent font-semibold px-4 py-1.5 rounded-full">
-        <span className="w-2 h-2 rounded-full bg-[var(--color-primary-50)] animate-pulse" />
-        Online Education, Reimagined
-      </span>
+  <section className="relative isolate overflow-hidden">
+    {/* Soft brand glow + grid backdrop */}
+    <div
+      aria-hidden
+      className="absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_70%_20%,rgb(123_88_244/0.14),transparent_70%),radial-gradient(40%_40%_at_10%_90%,rgb(217_146_123/0.14),transparent_70%)]"
+    />
+    <div
+      aria-hidden
+      className="absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black,transparent_85%)] bg-[linear-gradient(to_right,rgb(18_18_36/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(18_18_36/0.04)_1px,transparent_1px)] bg-[size:48px_48px]"
+    />
 
-      <h1 className="font-main font-black text-4xl md:text-5xl lg:text-6xl w-full lg:max-w-[18ch] leading-tight">
-        Online teaching and learning just got seamless with Klosanow
-      </h1>
-      <Elispce className="absolute w-[35px] h-[35px] bg-secondary-thin -z-1 top-40 left-[80%] md:left-[96%]" />
-      <p className="font-accent text-lg text-[var(--color-black-50)] max-w-[52ch] leading-relaxed">
-        Create engaging video learning content, send it to your learning
-        community and stay connected 24/7 through the messaging feature on the
-        platform.
-      </p>
+    <div className="container-page grid items-center gap-14 pt-14 pb-20 lg:grid-cols-[1.05fr_1fr] lg:pt-20 lg:pb-28">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="eyebrow">
+          <span className="size-1.5 animate-pulse rounded-full bg-brand-500" />
+          Online Education, Reimagined
+        </span>
 
-      <div className="flex items-center gap-4">
-        <button
-          className="btn-primary inline-flex items-center gap-2"
-          onClick={() => window.open("https://zc.vg/tav67", "_blank")}
-        >
-          Join Waitlist <ArrowRight size={16} />
-        </button>
-      </div>
+        <h1 className="mt-6 text-4xl leading-[1.08] font-extrabold tracking-tight text-ink-900 sm:text-5xl lg:text-[3.5rem]">
+          Online teaching and learning just got{" "}
+          <span className="bg-gradient-to-r from-brand-600 to-brand-400 bg-clip-text text-transparent">
+            seamless
+          </span>{" "}
+          with Klosanow
+        </h1>
 
-      {/* Stats row */}
-      <div className="flex flex-wrap gap-6 pt-2">
-        {[
-          { value: "500+", label: "Tutors" },
-          { value: "2,000+", label: "Learners" },
-          { value: "Free", label: "To start" },
-        ].map(({ value, label }) => (
-          <div key={label} className="flex flex-col">
-            <span className="font-main font-black text-2xl text-[var(--color-primary-60)]">{value}</span>
-            <span className="font-accent text-sm text-[var(--color-black-50)]">{label}</span>
-          </div>
-        ))}
-      </div>
-    </motion.div>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-500 sm:text-lg">
+          Create engaging video learning content, send it to your learning
+          community and stay connected 24/7 through the messaging feature on
+          the platform.
+        </p>
 
-    <motion.div
-      className="relative max-sm:mt-10 flex justify-center"
-      animate={{ scale: [1.05, 1], x: [-60, 0] }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className="flex justify-center items-center w-[380px] h-[380px] md:w-[450px] md:h-[450px] bg-secondary-sm rounded-full transition-all duration-500 hover:scale-105">
-        <Elispce className="absolute w-[500px] h-[500px] border-secondary-sm -z-1 top-52 -right-52" />
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <JoinWaitlistButton className="h-[52px] px-7" />
+          <a href="#how-it-works" className="btn btn-ghost h-[52px] px-6">
+            <PlayCircle className="size-4 text-brand-500" />
+            See how it works
+          </a>
+        </div>
+
+        <dl className="mt-12 grid max-w-md grid-cols-3 divide-x divide-ink-200 rounded-2xl bg-white/70 py-4 ring-1 ring-ink-100 backdrop-blur">
+          {stats.map(({ value, label }) => (
+            <div key={label} className="px-4 text-center sm:px-6">
+              <dt className="sr-only">{label}</dt>
+              <dd className="text-2xl font-extrabold text-ink-900">{value}</dd>
+              <dd className="mt-0.5 text-xs font-medium text-ink-500">{label}</dd>
+            </div>
+          ))}
+        </dl>
+      </motion.div>
+
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.7, delay: 0.1 }}
+      >
+        <div
+          aria-hidden
+          className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-brand-300 via-brand-200 to-peach-300 opacity-80"
+        />
+        <div
+          aria-hidden
+          className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full ring-1 ring-white/70"
+        />
         <Image
           src={heroImg}
-          alt="hero"
-          className="w-[350px] sm:w-[350px] md:w-[400px] lg:w-[400px]"
-          width={500}
-          height={500}
-          sizes="(max-width: 640px) 250px,
-         (max-width: 768px) 300px,
-         (max-width: 1024px) 400px,
-         500px"
+          alt="The Klosanow app: onboarding, lesson dashboard and study chat screens"
+          className="mx-auto w-full max-w-[540px] drop-shadow-[0_30px_40px_rgb(41_29_81/0.35)]"
+          sizes="(max-width: 1024px) 90vw, 540px"
           priority
           draggable={false}
         />
-      </div>
-    </motion.div>
-  </div>
+      </motion.div>
+    </div>
+  </section>
 );

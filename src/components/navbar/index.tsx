@@ -1,60 +1,68 @@
 "use client";
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
-import { Links } from "@/data";
+import { APP_URL, Links } from "@/data";
+import { cn } from "@/lib/utils";
 import { Logo } from "../ui/Logo";
 import { JoinWaitlistButton } from "../ui/JoinWaitlistButton";
 import { MobileNav } from "./MobileNav";
 import { NavLinks } from "./NavLinks";
 
 export const Navbar: React.FC = () => {
-  const [navIsOpen, setNavIsOpen] = useState<boolean>(false);
-  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [navIsOpen, setNavIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <nav
-      className={`fixed bg-white flex justify-between items-center top-0 left-0 w-full py-5 px-5 md:px-20 border-b border-black/10 h-20 z-10 transition-shadow duration-300 ${scrolled ? "shadow-md" : "shadow-none"}`}
-    >
-      <div className="flex justify-center">
-        <Logo />
-      </div>
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex justify-between items-center">
-        <ul className="flex space-x-10 font-accent">
-          {Links.map(({ title, href }, i) => (
-            <li
-              key={i}
-              className="list-none text-base text-primary-bold font-medium"
-            >
-              <NavLinks href={href}>{title}</NavLinks>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* Join waitlist desktop view  */}
-      <div className="hidden md:flex">
-        <JoinWaitlistButton
-          handleButtonClick={() => window.open("https://zc.vg/tav67", "_blank")}
-        />
-      </div>
-
-      {/* Mobile Menu */}
-      <MobileNav navIsOpen={navIsOpen} setNavIsOpen={setNavIsOpen} />
-
-      {/* Mobile Menu button */}
-      <button
-        className="border p-2 rounded-lg md:hidden cursor-pointer text-primary-bold hover:bg-gray-50 transition-colors"
-        onClick={(): void => setNavIsOpen((prev) => !prev)}
+    <>
+      <header
+        className={cn(
+          "sticky top-0 z-40 w-full transition-all duration-300",
+          scrolled
+            ? "border-b border-ink-100 bg-white/85 shadow-[0_1px_12px_rgb(18_18_36/0.05)] backdrop-blur-lg"
+            : "border-b border-transparent bg-white",
+        )}
       >
-        <Menu size={20} />
-      </button>
-    </nav>
+        <nav className="container-page flex h-[72px] items-center justify-between gap-6">
+          <Logo />
+
+          <ul className="hidden items-center gap-1 md:flex">
+            {Links.map(({ title, href }) => (
+              <li key={href}>
+                <NavLinks href={href}>{title}</NavLinks>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden items-center gap-2 md:flex">
+            <a
+              href={`${APP_URL}/sign-in`}
+              className="btn h-10 px-4 text-ink-700 hover:bg-ink-50"
+            >
+              Log in
+            </a>
+            <JoinWaitlistButton className="h-10 px-5" withIcon={false} />
+          </div>
+
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={navIsOpen}
+            className="inline-flex size-10 items-center justify-center rounded-xl text-ink-700 ring-1 ring-ink-200 transition hover:bg-ink-50 md:hidden"
+            onClick={() => setNavIsOpen(true)}
+          >
+            <Menu className="size-5" />
+          </button>
+        </nav>
+      </header>
+      {/* Outside <header>: its backdrop-filter would trap a fixed overlay. */}
+      <MobileNav navIsOpen={navIsOpen} setNavIsOpen={setNavIsOpen} />
+    </>
   );
 };

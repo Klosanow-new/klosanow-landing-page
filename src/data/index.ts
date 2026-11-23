@@ -10,7 +10,6 @@ import {
   InstagramIcon,
   LinkedInIcon,
   TwitterIcon,
-  WhatsappIcon,
 } from "@/assets";
 
 type TImgPaths = {
@@ -46,11 +45,16 @@ interface TermsSection {
 }
 
 interface IFooterSocialLinks {
+  label?: string;
   url: StaticImageData;
   href: string;
   width?: number;
   height?: number;
 }
+
+export const WAITLIST_URL = "https://zc.vg/tav67";
+export const APP_URL = "https://app.klosanow.com";
+export const CONTACT_EMAIL = "team@klosanow.com";
 
 const ImgPaths: TImgPaths[] = [
   { url: slideImg, height: 500, width: 500, className: "mt-15" },
@@ -64,11 +68,7 @@ const Links: TLinks[] = [
   { title: "Contact", href: "/contact" },
 ];
 
-const MobileLinks = [
-  ...Links,
-  { title: "Join waitlist", href: "https://zc.vg/tav67" },
-  // { title: "LogIn", href: "https://klosanow-frontend.vercel.app" },
-];
+const MobileLinks = [...Links];
 
 const navFooter = [
   { title: "Home", href: "/" },
@@ -79,35 +79,29 @@ const navFooter = [
 ];
 
 const authFooter: { title: string; href: string }[] = [
-  { title: "Login", href: "#" },
-  {
-    title: "Create Account",
-    href: "#",
-  },
-  { title: "Reset Password", href: "#" },
+  { title: "Login", href: `${APP_URL}/sign-in` },
+  { title: "Create Account", href: `${APP_URL}/sign-up` },
+  { title: "Reset Password", href: `${APP_URL}/forgot-password` },
 ];
 
 const footerSocialLinks: IFooterSocialLinks[] = [
   {
-    url: WhatsappIcon,
-    href: "#",
-    width: 30,
-    height: 30,
-  },
-  {
     url: LinkedInIcon,
+    label: "LinkedIn",
     href: "https://www.linkedin.com/company/klosanow",
     width: 30,
     height: 30,
   },
   {
     url: TwitterIcon,
+    label: "X (Twitter)",
     href: "https://twitter.com/klosanow",
     width: 30,
     height: 30,
   },
   {
     url: InstagramIcon,
+    label: "Instagram",
     href: "https://www.instagram.com/klosanow?igshid=OGQ5ZDc2ODk2ZA%3D%3D",
     width: 30,
     height: 30,
@@ -167,7 +161,7 @@ const aboutSlide = [
     desc: "Tutors get to teach when they want, learners learn when they can.",
   },
   {
-    id: 4,
+    id: 5,
     title: "Personalized Learning",
     desc: "Tutors can create learning contents in line with their learners' preferred language, curriculum and learning style.",
   },
