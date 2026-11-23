@@ -1,50 +1,34 @@
 import React from "react";
-import { Elispce } from "../ui/Elispce";
-import { features } from "@/data";
 import Image from "next/image";
+import { features } from "@/data";
 
 export const Features: React.FC = () => (
-  <div className="relative flex justify-center mt-10 pb-1 lg:pb-24">
-    <Elispce className="absolute w-[500px] h-[500px] bg-secondary-sm -z-1 top-52 -left-52" />
-    <div className="flex flex-col justify-center bg-neutral-xmd w-full p-8 sm:p-14 lg:p-20 rounded-2xl shadow-xl">
-      <div className="flex justify-end relative w-full">
-        <div className="text-center w-full lg:max-w-[45ch] lg:text-end">
-          <h1 className="relative font-main w-[110%] font-black text-3xl md:text-5xl">
-            How Klosanow wo
-            <span className="underline decoration-4 decoration-[var(--color-secondary-30)] md:no-underline md:after:absolute md:after:content[''] md:after:w-14 how-works md:after:h-1 md:after:bottom-0 md:after:right-0">
-              rks
-            </span>
-          </h1>
-        </div>
+  <section id="how-it-works" className="scroll-mt-24 bg-ink-50 py-20 sm:py-28">
+    <div className="container-page">
+      <div className="mx-auto max-w-2xl text-center">
+        <span className="eyebrow">Three simple steps</span>
+        <h2 className="mt-5 text-3xl leading-tight font-extrabold tracking-tight text-ink-900 sm:text-4xl">
+          How Klosanow works
+        </h2>
       </div>
 
-      <div className="flex justify-center mt-12">
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {features.map(({ src, desc, title }, _i) => (
-            <div
-              key={_i}
-              className="group flex flex-col items-center text-center gap-4 bg-white rounded-2xl w-[300px] p-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-            >
-              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-primary-5)]">
-                <Image
-                  src={src}
-                  alt="features"
-                  width={36}
-                  height={36}
-                  priority
-                  draggable={false}
-                />
-              </div>
-              {title && (
-                <h3 className="font-main font-bold text-lg text-[var(--color-primary-80)]">
-                  {title}
-                </h3>
-              )}
-              <p className="font-accent text-sm text-[var(--color-black-50)] leading-relaxed">{desc}</p>
+      <ol className="mt-14 grid gap-6 md:grid-cols-3">
+        {features.map(({ src, desc, title }, i) => (
+          <li
+            key={title}
+            className="card group relative p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+          >
+            <span className="absolute top-7 right-7 text-sm font-extrabold text-ink-200">
+              0{i + 1}
+            </span>
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-brand-50 ring-1 ring-brand-100 transition-colors group-hover:bg-brand-100">
+              <Image src={src} alt="" width={30} height={30} draggable={false} />
             </div>
-          ))}
-        </div>
-      </div>
+            <h3 className="mt-6 text-lg font-bold text-ink-900">{title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-ink-500">{desc}</p>
+          </li>
+        ))}
+      </ol>
     </div>
-  </div>
+  </section>
 );

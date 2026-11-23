@@ -1,77 +1,86 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Mail } from "lucide-react";
 import { Logo } from "./Logo";
-import { authFooter, footerSocialLinks, navFooter } from "@/data";
+import { authFooter, CONTACT_EMAIL, footerSocialLinks, navFooter } from "@/data";
+
+const linkClass =
+  "text-sm text-ink-500 transition-colors hover:text-brand-600";
 
 export const Footer: React.FC = () => (
-  <footer className="relative border-t border-[var(--color-primary-15)] grid md:grid-cols-2 gap-10 lg:justify-items-center lg:grid-cols-3 bg-primary-thin p-5 sm:p-10 lg:p-20">
-    <div className="flex flex-col space-y-4">
-      <Logo />
-      <p className="font-accent text-sm text-[var(--color-black-50)] leading-relaxed max-w-[28ch]">
-        Bridging the Gap Between Learners and Tutors
-      </p>
-      <p className="font-accent text-xs text-[var(--color-black-20)]">
-        © <span>{new Date().getFullYear()}</span> Klosanow. All rights reserved.
-      </p>
-    </div>
+  <footer className="border-t border-ink-100 bg-ink-50">
+    <div className="container-page grid gap-12 py-16 md:grid-cols-12">
+      <div className="md:col-span-5">
+        <Logo />
+        <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
+          Bridging the Gap Between Learners and Tutors
+        </p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-700 hover:text-brand-600"
+        >
+          <Mail className="size-4" />
+          {CONTACT_EMAIL}
+        </a>
+      </div>
 
-    {/* Extra links */}
-    <div className="flex flex-col">
-      <h2 className="font-accent font-bold text-xs uppercase tracking-widest text-[var(--color-primary-80)] mb-4">
-        Quick Links
-      </h2>
-      <div className="grid md:grid-cols-2 gap-x-8">
-        <ul className="space-y-2.5">
-          {navFooter.map(({ title, href }, _i) => (
-            <li key={_i}>
-              <Link
-                href={href}
-                className="font-accent text-sm text-[var(--color-black-50)] hover:text-[var(--color-primary-50)] transition-colors duration-200"
-              >
-                {title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <ul className="space-y-2.5 mt-2.5 md:mt-0">
-          {authFooter.map(({ title, href }, _i) => (
-            <li key={_i}>
-              <Link
-                href={href}
-                className="font-accent text-sm text-[var(--color-black-50)] hover:text-[var(--color-primary-50)] transition-colors duration-200"
-              >
+      <div className="md:col-span-2">
+        <h2 className="text-xs font-bold tracking-wider text-ink-900 uppercase">
+          Company
+        </h2>
+        <ul className="mt-4 space-y-3">
+          {navFooter.map(({ title, href }) => (
+            <li key={href}>
+              <Link href={href} className={linkClass}>
                 {title}
               </Link>
             </li>
           ))}
         </ul>
       </div>
-    </div>
 
-    {/* Socials */}
-    <div>
-      <h2 className="font-accent font-bold text-xs uppercase tracking-widest text-[var(--color-primary-80)] mb-4">
-        Follow Us
-      </h2>
-      <ul className="flex gap-3">
-        {footerSocialLinks.map(({ url, href, width, height }, _i) => (
-          <li key={_i}>
-            <Link
-              href={href}
-              className="block opacity-75 hover:opacity-100 transition-opacity duration-200 hover:scale-110 transform"
-            >
-              <Image
-                src={url}
-                alt="socialImg"
-                width={width}
-                height={height}
-                draggable={false}
-              />
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="md:col-span-2">
+        <h2 className="text-xs font-bold tracking-wider text-ink-900 uppercase">
+          Account
+        </h2>
+        <ul className="mt-4 space-y-3">
+          {authFooter.map(({ title, href }) => (
+            <li key={href}>
+              <a href={href} className={linkClass}>
+                {title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="md:col-span-3">
+        <h2 className="text-xs font-bold tracking-wider text-ink-900 uppercase">
+          Follow us
+        </h2>
+        <ul className="mt-4 flex gap-2">
+          {footerSocialLinks.map(({ url, href, label }) => (
+            <li key={href}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex size-10 items-center justify-center rounded-xl bg-white ring-1 ring-ink-200 transition hover:-translate-y-0.5 hover:ring-brand-300"
+              >
+                <Image src={url} alt="" width={20} height={20} draggable={false} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div className="border-t border-ink-100">
+      <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-ink-400 sm:flex-row">
+        <p>© {new Date().getFullYear()} Klosanow. All rights reserved.</p>
+        <p>Made for tutors and learners across Africa and beyond.</p>
+      </div>
     </div>
   </footer>
 );

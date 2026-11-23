@@ -8,26 +8,18 @@ import {
 import { faqItems } from "@/data";
 
 export const FAQ: React.FC = () => (
-  <Accordion
-    type="single"
-    collapsible
-    className="w-[430px] md:w-[500px] lg:w-[900px] bg-white p-10"
-    defaultValue="item-1"
-  >
-    {faqItems.map(({ title, text }, _i) => (
+  <Accordion type="single" collapsible defaultValue="item-1" className="space-y-3">
+    {faqItems.map(({ title, text }, i) => (
       <AccordionItem
-        key={_i}
-        value={`"item-${_i + 1}"`}
-        className="w-full border-gray-300"
+        key={title}
+        value={`item-${i + 1}`}
+        className="rounded-2xl border-0 bg-white px-6 shadow-card ring-1 ring-ink-100 data-[state=open]:ring-brand-200"
       >
-        <AccordionTrigger className="w-full font-main font-bold text-[16px] lg:text-xl cursor-pointer">
-          {title}
+        <AccordionTrigger className="cursor-pointer py-5 text-base font-bold text-ink-900 hover:no-underline">
+          {title.trim()}
         </AccordionTrigger>
-        <AccordionContent className="flex flex-col gap-4 text-balance">
-          <p
-            className="font-accent text-[16px] lg:text-[18px]"
-            style={{ whiteSpace: "pre-line" }}
-          >
+        <AccordionContent className="pb-5">
+          <p className="text-[15px] leading-relaxed text-ink-500 whitespace-pre-line">
             {text}
           </p>
         </AccordionContent>

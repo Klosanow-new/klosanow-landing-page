@@ -2,15 +2,13 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
-import { CheckCircle } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Elispce } from "../ui/Elispce";
 import { ImgPaths } from "@/data";
-import { cn } from "@/lib/utils";
 
 const benefits = [
   "Teach at your own pace with easy-to-use tools",
@@ -20,63 +18,66 @@ const benefits = [
 ];
 
 export const Empower: React.FC = () => {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
   return (
-    <div className="flex flex-col xl:flex-row lg:space-x-40 relative mt-10 lg:mt-20 -z-1 visible">
-      <div className="relative space-y-6 p-8">
-        <span className="inline-block font-accent font-semibold text-sm text-[var(--color-primary-60)] uppercase tracking-widest">
-          Why Klosanow
-        </span>
-        <h1 className="font-main font-black text-3xl md:text-4xl lg:text-5xl w-full lg:max-w-[20ch] leading-tight">
-          Empowering Learners and Tutors Through Online Education
-        </h1>
-        <Elispce className="absolute w-[35px] h-[35px] bg-secondary-thin -z-1 top-80 left-[80%] md:left-[76%]" />
-        <p className="font-accent text-base text-[var(--color-black-50)] max-w-[52ch] leading-relaxed">
-          The Klosanow platform is both effective and efficient, enabling
-          learners to access learning content created by tutors — anytime, anywhere.
-        </p>
-        <ul className="space-y-3">
-          {benefits.map((benefit) => (
-            <li key={benefit} className="flex items-start gap-3">
-              <CheckCircle
-                size={18}
-                className="mt-0.5 shrink-0 text-[var(--color-primary-50)]"
-              />
-              <span className="font-accent text-sm text-[var(--color-black-50)] leading-relaxed">
-                {benefit}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="relative max-sm:mt-10 flex justify-center z-0">
-        <div className="flex justify-center items-center w-[300px] h-[300px] md:w-[350px] md:h-[350px] bg-secondary-sm rounded-full">
-          <Carousel
-            plugins={[plugin.current]}
-            className="w-full max-w-xs"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
-          >
-            <CarouselContent>
-              {ImgPaths.map(({ url, width, height, className }, index) => (
-                <CarouselItem key={index}>
-                  <div className={cn("select-none", className)}>
+    <section className="py-20 sm:py-28">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+        <div className="relative order-2 lg:order-1">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-[2rem] bg-gradient-to-b from-peach-200 via-peach-100 to-brand-100">
+            <div
+              aria-hidden
+              className="absolute -top-16 -right-16 size-56 rounded-full bg-brand-200/60 blur-2xl"
+            />
+            <Carousel
+              plugins={[plugin.current]}
+              opts={{ loop: true }}
+              className="h-full"
+              onMouseEnter={plugin.current.stop}
+              onMouseLeave={plugin.current.reset}
+            >
+              <CarouselContent className="h-full">
+                {ImgPaths.map(({ url }, index) => (
+                  <CarouselItem key={index} className="flex h-full items-end justify-center">
                     <Image
                       src={url}
-                      width={width}
-                      height={height}
-                      alt="slides"
+                      alt="A learner using Klosanow"
+                      className="h-[92%] w-auto object-contain object-bottom select-none"
                       draggable={false}
                     />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+          <div className="absolute bottom-8 left-0 hidden rounded-2xl bg-white px-5 py-4 shadow-lift ring-1 ring-ink-100 sm:block lg:-left-6">
+            <p className="text-xs font-semibold text-ink-500">Learn on any device</p>
+            <p className="mt-0.5 text-sm font-bold text-ink-900">Anytime, anywhere</p>
+          </div>
+        </div>
+
+        <div className="order-1 lg:order-2">
+          <span className="eyebrow">Why Klosanow</span>
+          <h2 className="mt-5 text-3xl leading-tight font-extrabold tracking-tight text-ink-900 sm:text-4xl">
+            Empowering Learners and Tutors Through Online Education
+          </h2>
+          <p className="mt-5 text-base leading-relaxed text-ink-500 sm:text-lg">
+            The Klosanow platform is both effective and efficient, enabling
+            learners to access learning content created by tutors — anytime,
+            anywhere.
+          </p>
+          <ul className="mt-8 space-y-4">
+            {benefits.map((benefit) => (
+              <li key={benefit} className="flex items-start gap-3">
+                <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-500 text-white">
+                  <Check className="size-3.5" strokeWidth={3} />
+                </span>
+                <span className="text-[15px] leading-relaxed text-ink-700">{benefit}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
